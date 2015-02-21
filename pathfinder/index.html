@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinder</title>
+	<script src="scripts/respond.js"></script>
+	<script src="scripts/jquery-1.10.2.js" ></script>
+	<script src="scripts/bootstrap.js" ></script>
+	
+	<script src="scripts/questions.js"></script>
+	<script src="scripts/modernizr-2.6.2.js" ></script>
+	<link rel="stylesheet" type="text/css" href="content/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="content/site.css" />
+	
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="Index.html" class="navbar-brand">Pathfinder</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="Index.html">Home</a></li>
+					<li><a href="Groups.html">Groups</a></li>
+					<li><a href="Offices.html">Offices</a></li>
+					<li><a href="Jobs.html">Jobs</a></li>
+					<li><a href="Events.html">Events</a></li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+     
+<h2></h2>
+<h3></h3>
+<script type="text/javascript">
+
+    function fetchData(tags, success, error) {
+        $.ajax({
+            url: 'https://localwiki.org/api/v4/pages/?region=320&tags='+tags,
+            data: {},
+            type: 'GET',
+            success: success,
+            error: error
+        });
+    }
+
+    function updateResultsList(results) {
+
+        if (results.count == 0) {
+            $('.search-results').html('No results found.');
+            return;
+        }
+
+        $('.search-results').html('<ol></ol>');
+        for (var i = 0; i < results.count; i++) {
+            var result = results.results[i];
+
+            $('.search-results ol').append('<li><a href="' + 'https://localwiki.org/philadelphia/' + result['name'] + '"  target=_blank>' + result['name'] + '</a></li>');
+
+        }
+    }
+
+    function buildTopics() {
+        var topics = '';
+        
+        $(".question1").each(function (index) {
+            if (this.checked == true) {
+                topics = topics + this.value + ',';
+            }
+        });
+
+        $(".question2").each(function (index) {
+            if (this.checked == true) {
+                topics = topics + this.value + ',';
+            }
+        });
+
+        $(".question3").each(function (index) {
+            if (this.checked == true) {
+                topics = topics + this.value + ',';
+            }
+        });
+
+        return topics.substr(0,topics.length-1);
+    }
+</script>
+
+
+<p></p>
+
+
+<div class="col-md-6" id="question1">
+    <h3>Which topics below interest you?</h3>
+    <label><input type="checkbox" name="question1a1" class="question1" value="students" />Students</label>
+    <label><input type="checkbox" name="question1a2" class="question1" value="literacy" /> Literacy</label>
+    <label><input type="checkbox" name="topics" class="question1" value="religious" /> Religious</label>
+    <label><input type="checkbox" name="topics" class="question1" value="sports" /> Sports</label>
+    <label><input type="checkbox" name="topics" class="question1" value="hunger" /> Hunger</label>
+    <label><input type="checkbox" name="topics" class="question1" value="animals" /> Animals</label>
+    <label><input type="checkbox" name="topics" class="question1" value="politics" /> Politics</label>
+    <label><input type="checkbox" name="topics" class="question1" value="tech" /> Technology</label>
+    <label><input type="checkbox" name="topics" class="question1" value="networking" /> Networking</label>
+    <label><input type="checkbox" name="topics" class="question1" value="sustainability"/> Sustainability</label>
+
+            <br /><br />
+            <h3>Who are you with?</h3>
+            <input type="radio" name="question2" class="question2" value="solo" /> Solo
+            <input type="radio" name="question2" class="question2" value="friends" /> Friends
+            <input type="radio" name="question2" class="question2" value="groups" /> Groups
+            <input type="radio" name="question2" class="question2" value="spouse" /> Spouse
+            <input type="radio" name="question2" class="question2" value="family" /> Family
+            <br /><br />
+            <h3>How are you contributing?</h3>
+            <input type="radio" name="question3" class="question3" value="advocacy" /> Advocacy
+            <input type="radio" name="question3" class="question3" value="fundraising" /> Fundraising
+            <input type="radio" name="question3" class="question3" value="handson" /> Hands On
+            <input type="radio" name="question3" class="question3" value="skillsbased" /> Skills Based
+            <br /><br />
+            <h3>Who do you want to meet?</h3>
+            <input type="radio" name="question4" class="question4" value="meetstudents" /> Students
+            <input type="radio" name="question4" class="question4" value="meetyps" /> Young Professionals
+            <input type="radio" name="question4" class="question4" value="meetfamilies" /> Families
+            <input type="radio" name="question4" class="question4" value="meetestablished" /> Established
+            <input type="radio" name="question4" class="question4" value="meetseniors" /> Seniors
+            <br /><br />
+            <input type="button" onclick="fetchData(buildTopics(), updateResultsList, function (err) { console.error(err) });" value="Submit" />
+</div>
+
+
+<div class="col-md-6"><h3>Results</h3>
+    <div class="search-results" id="search-results">
+
+    </div></div>
+
+<br />
+        <hr /><hr />
+  
+
+        </div>
+
+
+</body>
+</html>
